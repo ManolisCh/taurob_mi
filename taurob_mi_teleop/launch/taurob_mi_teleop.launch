@@ -1,0 +1,15 @@
+ <launch>
+
+ <!-- joy node for taking joystick parameters and input -->
+  <node pkg="joy" type="joy_node" name="joy_node" >
+    <param name="dev" type="string" value="/dev/input/js0" /> <!-- change jsX for selecting joystick input-->
+    <param name="deadzone" value="0.15" />
+    <!--param name="autorepeat_rate" value="20" /-->
+  </node>
+
+<!-- teleop node -->
+<node pkg="taurob_mi_teleop" type="taurob_mi_teleop_node" name="mi_teleop" output="screen" >
+<remap from="/teleop/cmd_vel" to="/cmd_vel" />
+</node>
+
+</launch>
