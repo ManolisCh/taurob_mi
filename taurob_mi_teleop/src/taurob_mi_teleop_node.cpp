@@ -62,6 +62,7 @@ Publishes to (name / type):
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
 #include <geometry_msgs/Twist.h>
+#include <ros/console.h>
 
 #include <std_msgs/Int8.h>
 #include <std_msgs/Bool.h>
@@ -77,10 +78,11 @@ private:
 
     ros::NodeHandle nh_;
 
-    int linear_axis_, angular_axis_, control_button_, stop_button_, auto_button_, teleop_button_, enable_vel_button_;
+    int linear_axis_, angular_axis_, control_button_, stop_button_, auto_button_, teleop_button_, enable_vel_button_, lighton_button_, lightoff_button_, bluelighton_button_, bluelightoff_button_;
     double linear_scaling_, angular_scaling_;
 
-    ros::Publisher vel_pub_, mode_pub_;
+
+    ros::Publisher vel_pub_, mode_pub_, light_pub_, bluelight_pub_ ;
 
     ros::Subscriber joy_sub_;
 
@@ -99,13 +101,19 @@ JoystickTeleop::JoystickTeleop()
 
     //Default buttons for Xbox 360 joystick.
     nh_.param("teleop_button", teleop_button_, 3); // Y button
+    nh_.param("auto_button", auto_button_, 0);     // A button
     nh_.param("stop_button", stop_button_, 4);     // LB button
     nh_.param("enable_vel_button", enable_vel_button_, 5);     // RB button
-    nh_.param("auto_button", auto_button_, 0);     // A button
+    nh_.param("bluelightoff_button", bluelightoff_button_, 1);     // B button
+    nh_.param("bluelighton_button", bluelighton_button_, 2);     // X button
+    nh_.param("lightoff_button", lightoff_button_, 7);     // start button
+    nh_.param("lighton_button", lighton_button_, 6);     // back/select button
 
 
     vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/teleop/cmd_vel", 5);
     mode_pub_ = nh_.advertise<std_msgs::Int8>("/control_mode", 5);
+    light_pub_ = nh_.advertise<std_msgs::Bool>("/light", 5);
+    bluelight_pub_ = nh_.advertise<std_msgs::Bool>("/bluelight", 5);
 
     joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 2, &JoystickTeleop::joyCallback, this);
 
@@ -115,15 +123,28 @@ void JoystickTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
     geometry_msgs::Twist cmd_vel;
     std_msgs::Int8 mode;
+    std_msgs::Bool bluelight, light;
+
 
     if (joy->buttons.size() > enable_vel_button_ && joy->buttons[enable_vel_button_])
     {
+
+
         // movement commands
         cmd_vel.linear.x = linear_scaling_ * joy->axes[linear_axis_];
         cmd_vel.angular.z = angular_scaling_ * joy->axes[angular_axis_];
 
         vel_pub_.publish(cmd_vel);
     }
+
+    else
+    {
+        cmd_vel.linear.x = 0;
+        cmd_vel.angular.z = 0;
+
+        vel_pub_.publish(cmd_vel);
+    }
+
     // autonomy mode choice
     if (joy->buttons[stop_button_]){
         mode.data=0;
@@ -137,6 +158,35 @@ void JoystickTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
         mode.data=2;
         mode_pub_.publish(mode);
     }
+
+    // blue lights control
+    if (joy->buttons[bluelighton_button_])
+    {
+        bluelight.data = true;
+        bluelight_pub_.publish(bluelight);
+    }
+
+    if (joy->buttons[bluelightoff_button_])
+    {
+        bluelight.data = false;
+        bluelight_pub_.publish(bluelight);
+    }
+    // lights control
+    if (joy->buttons[lighton_button_])
+    {
+        light.data = true;
+        light_pub_.publish(light);
+    }
+
+    if (joy->buttons[lightoff_button_])
+    {
+        light.data = false;
+        light_pub_.publish(light);
+    }
+
+
+
+
 
 }
 
