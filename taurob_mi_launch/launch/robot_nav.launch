@@ -1,0 +1,46 @@
+<launch>
+<!-- Launch file for use on robot computer. Runs the nodes on robot -->
+  
+<!-- taurobot drivers (need to run seperately clinet watchdog on new OCU terminal) -->
+<include file="$(find taurob_mi_launch)/launch/tracker_bringup.launch"/>
+
+
+<!-- hokuyo laser scaner drivers -->
+  <node pkg="urg_node" type="urg_node" respawn="true" output="screen" name="hokuyo">
+    <param name="frame_id" type="string" value="base_laser"/>
+    <param name="ip_address" type="string" value="10.0.0.61"/> 
+    <param name="publish_intensity" type="bool" value="false"/>
+    <remap from="/last" to="/scan" />
+   </node>
+
+ <!-- hokuyo laser scaner drivers -->
+  <node pkg="um7" type="um7_driver" respawn="true" output="screen" name="imu"/>
+
+<!-- Filter laser scane to remove veiling effect -->
+<!--node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find experiments_launch)/config/laser_filter.yaml" />
+    <remap from="/scan_filtered" to="/scan_final" />
+</node-->
+
+<!-- tf transform -->
+<!-- args ="x y z qx qy qz frame_id child_frame_id period_in_ms" -->
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.20 0 0.20 0 0 0 /base_link /base_laser 25" />
+
+<!-- MAP server to load the predefined map -->
+  <!--arg name="map_file" default="$(find experiments_launch)/world/map.yaml" />
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+    <remap from="/map" to="/map" />
+  </node>
+
+<!-- Navigation stuff / move_base -->
+<!--include file="$(find experiments_launch)/launch/move_base.launch"/>
+<include file="$(find experiments_launch)/launch/move_base_optimal.launch"/-->
+
+<!-- AMCL -->
+<!--include file="$(find experiments_launch)/launch/amcl.launch"/-->
+
+<!-- usb_cam -->
+<!--include file="$(find experiments_launch)/launch/usb_cam.launch"/-->
+
+</launch>
