@@ -27,18 +27,18 @@
 <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.20 0 0.20 0 0 0 /base_link /base_laser 25" />
 
 <!-- MAP server to load the predefined map -->
-  <!--arg name="map_file" default="$(find experiments_launch)/world/map.yaml" /-->
+  <arg name="map_file" default="$(find taurob_mi_launch)/world/map.yaml" />
 
-  <!--node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"-->
-    <!--remap from="/map" to="/map" />
-  </node-->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <remap from="/map" to="/map" />
+  </node>
 
 <!-- Navigation stuff / move_base -->
 <!--include file="$(find experiments_launch)/launch/move_base.launch"/-->
 <!--include file="$(find experiments_launch)/launch/move_base_optimal.launch"/-->
 
 <!-- AMCL -->
-<!--include file="$(find experiments_launch)/launch/amcl.launch"/-->
+<include file="$(find taurob_mi_launch)/launch/amcl.launch"/>
 
 
 </launch>
