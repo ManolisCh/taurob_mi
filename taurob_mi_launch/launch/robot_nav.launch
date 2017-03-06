@@ -34,7 +34,7 @@
   </node>
 
 <!-- Navigation stuff / move_base -->
-<!--include file="$(find experiments_launch)/launch/move_base.launch"/-->
+<include file="$(find experiments_launch)/launch/move_base.launch"/>
 <!--include file="$(find experiments_launch)/launch/move_base_optimal.launch"/-->
 
 <!-- AMCL -->

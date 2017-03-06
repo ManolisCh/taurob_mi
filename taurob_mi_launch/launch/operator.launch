@@ -34,7 +34,7 @@
     args="-d $(find taurob_mi_launch)/rviz_cfg/rviz_cfg.rviz"/> 
 
 <!-- Play sounds -->
-<!--node pkg="sound_play" type="soundplay_node.py" name="soundplay_node" output="screen"/--> 
+<node pkg="sound_play" type="soundplay_node.py" name="soundplay_node" output="screen"/> 
 
 
 </launch>
