@@ -13,7 +13,7 @@
     <remap from="/last" to="/scan" />
    </node>
 
- <!-- hokuyo laser scaner drivers -->
+ <!-- imu drivers -->
   <node pkg="um7" type="um7_driver" respawn="true" output="screen" name="imu"/>
 
 <!-- Filter laser scane to remove veiling effect -->
@@ -24,21 +24,11 @@
 
 <!-- tf transform -->
 <!-- args ="x y z qx qy qz frame_id child_frame_id period_in_ms" -->
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.20 0 0.20 0 0 0 /base_link /base_laser 25" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.275 0 0.075 0 0 0 /base_link /base_laser 25" />
 
-<!-- MAP server to load the predefined map -->
-  <arg name="map_file" default="$(find taurob_mi_launch)/world/map.yaml" />
-
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
-    <remap from="/map" to="/map" />
-  </node>
-
-<!-- Navigation stuff / move_base -->
-<include file="$(find taurob_mi_launch)/launch/move_base.launch"/>
-<!--include file="$(find taurob_mi_launch)/launch/move_base_optimal.launch"/-->
 
 <!-- AMCL -->
-<include file="$(find taurob_mi_launch)/launch/amcl.launch"/>
+<include file="$(find taurob_mi_launch)/launch/slam_gmapping.launch"/>
 
 
 </launch>
