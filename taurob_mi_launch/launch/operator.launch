@@ -1,4 +1,6 @@
 <launch>
+
+
 <!-- Launch file for use on OCU. Runs the nodes on operator's computer -->
 
 <!-- joy node -->
@@ -13,7 +15,7 @@
    </node> 
 
 <!-- teleop node -->
-<node pkg="mixed_initiative_teleop" type="mixed_initiative_teleop" name="mi_teleop" output="screen"/>
+<node pkg="taurob_mi_teleop" type="taurob_mi_teleop_node" name="mi_teleop" output="screen"/>
 
 <!-- cmd mixer for choosing autonomy mode or e.g. emergency stop if nav doesnt work good. (buttons for teleoperation - stop - autonomy mode) -->
 <!-- In xbox controller Y =  teleop , A = auto , LB = stop (in any case) -->
@@ -29,10 +31,10 @@
 <node pkg="status_publisher" type="status_sound_publisher_node" name="status_sound_publisher_node" output="screen"/>>
 
 <node pkg="rviz" type="rviz" name="rviz" 
-    args="-d $(find experiments_launch)/rviz_cfg/rviz_cfg.rviz"/> 
+    args="-d $(find taurob_mi_launch)/rviz_cfg/rviz_cfg.rviz"/> 
 
 <!-- Play sounds -->
-<node pkg="sound_play" type="soundplay_node.py" name="soundplay_node" output="screen"/> 
+<!--node pkg="sound_play" type="soundplay_node.py" name="soundplay_node" output="screen"/--> 
 
 
 </launch>
