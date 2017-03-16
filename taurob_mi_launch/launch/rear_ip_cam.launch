@@ -1,9 +1,9 @@
 
 <launch>
   
-  <arg name="camera_name" default="ip_camera" />
-  <arg name="ip" default="10.0.0.31" />
-  <arg name="frame_id" default="ip_camera_frame_id"/>
+  <arg name="camera_name" default="rear_chassis_cam" />
+  <arg name="ip" default="10.0.0.32" />
+  <arg name="frame_id" default="rear_chassis_cam_optical_frame"/>
   <arg name="user_name" default="taurob"/>
 
   <node pkg="nodelet" type="nodelet"

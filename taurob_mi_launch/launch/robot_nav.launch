@@ -13,18 +13,14 @@
     <remap from="/last" to="/scan" />
    </node>
 
- <!-- hokuyo laser scaner drivers -->
+
+ <!-- imu drivers -->
   <node pkg="um7" type="um7_driver" respawn="true" output="screen" name="imu"/>
 
-<!-- Filter laser scane to remove veiling effect -->
-<!--node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
-    <rosparam command="load" file="$(find experiments_launch)/config/laser_filter.yaml" />
-    <remap from="/scan_filtered" to="/scan_final" />
-</node-->
 
 <!-- tf transform -->
 <!-- args ="x y z qx qy qz frame_id child_frame_id period_in_ms" -->
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.20 0 0.20 0 0 0 /base_link /base_laser 25" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.275 0 0.075 0 0 0 /base_link /base_laser 50" />
 
 <!-- MAP server to load the predefined map -->
   <arg name="map_file" default="$(find taurob_mi_launch)/world/map.yaml" />
