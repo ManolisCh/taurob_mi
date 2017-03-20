@@ -1,0 +1,44 @@
+
+<launch>
+	
+	<arg name="camera_name" default="rear_chassis_cam" />
+	<arg name="ip" default="10.0.0.31" />
+	<arg name="frame_id" default="rear_chassis_cam_frame"/>
+	<arg name="user_name" default="taurob"/>
+
+	 <!-- The GStreamer framerate needs to be an integral fraction -->
+  <!-- Note: Minoru can't push full 640x480 at 30fps -->
+  <arg name="WIDTH" default="320"/>
+  <arg name="HEIGHT" default="240"/>
+  <arg name="FPS" default="30/1"/>
+  <arg name="BRIGHTNESS" default="0"/>
+  <arg name="PUBLISH_FRAME" default="false"/>
+
+  <!-- Construct the v4l2src format config -->
+  <arg name="FORMAT" default="video/x-raw-rgb,width=$(arg WIDTH),height=$(arg HEIGHT),framerate=$(arg FPS)"/>
+
+		<!--gst-launch-1.0 rtspsrc location=rtsp://taurob:Troboter3@10.0.0.31:554/0/video0 latency=20 ! decodebin ! videoconvert ! autovideosink-->
+		
+		<!-- TEST -->
+		<node ns="rear_chassis_cam" name="rear_chassis_cam_node" pkg="gscam" type="gscam" output="screen">
+     <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
+
+     <param name="gscam_config" value="rtspsrc location=rtsp://$(arg user_name):Troboter3@$(arg ip):554/0/video0 latency=20 ! decodebin ! videoconvert"/>
+
+     <param name="frame_id" value="$(arg frame_id)"/>
+		 <param name="image_encoding" value="rgb8"/>
+		 <param name="reopen_on_eof" value="true"/>
+		 <param name="use_gst_timestamps" value="true"/>
+		 <param name="preroll" value="false" />
+		 <remap from ="/camera/image_raw" to="/$(arg camera_name)/image_raw"/>
+		 <remap from ="/camera/camera_info" to="/$(arg camera_name)/camera_info"/>
+		 <remap from ="/set_camera_info" to="/$(arg camera_name)/set_camera_info"/>  
+     <param name="frame_id" value="$(arg frame_id)"/>
+    <!-- This needs to be set to false to avoid dropping tons of frames -->
+    <param name="sync_sink" value="false"/>
+  </node>
+
+  <!--node name="rear_chassis_cam_transform" pkg="tf" type="static_transform_publisher" args="1 2 3 0 -3.141 0 /world /decklink_frame 10"/-->
+
+
+</launch>
