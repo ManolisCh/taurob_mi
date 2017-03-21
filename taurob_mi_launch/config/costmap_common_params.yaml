@@ -16,7 +16,7 @@ static:
 
 obstacles_laser:
     observation_sources: laser
-    laser: {sensor frame: base_laser, data_type:  LaserScan, topic: scan, clearing: true, marking: true, raytrace_range: 4.0, obstacle_range: 4.0}
+    laser: {sensor frame: base_laser, data_type:  LaserScan, topic: scan, clearing: true, marking: true, raytrace_range: 5.0, obstacle_range: 5.0}
 
 inflation:
     inflation_radius: 0.55

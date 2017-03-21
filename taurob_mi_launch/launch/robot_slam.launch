@@ -10,7 +10,9 @@
     <param name="frame_id" type="string" value="base_laser"/>
     <param name="ip_address" type="string" value="10.0.0.61"/> 
     <param name="publish_intensity" type="bool" value="false"/>
-    <remap from="/last" to="/scan" />
+    <param name="angle_max" type="double" value="4.71"/>
+    <param name="angle_min" type="double" value="-4.71"/>
+    <remap from="/first" to="/scan" />
    </node>
 
 
@@ -20,11 +22,17 @@
 
 <!-- tf transform -->
 <!-- args ="x y z qx qy qz frame_id child_frame_id period_in_ms" -->
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.275 0 0.075 0 0 0 /base_link /base_laser 50" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.275 0 0.075 0 0 0 /base_link /base_laser 40" />
+
+<!-- front and rear chassis ip cams -->
+<include file="$(find taurob_mi_launch)/launch/rear_ip_cam.launch"/>
+<include file="$(find taurob_mi_launch)/launch/front_ip_cam.launch"/>
 
 
 <!-- gmapping SLAM -->
-<include file="$(find taurob_mi_launch)/launch/slam_gmapping.launch"/>
+<!--include file="$(find taurob_mi_launch)/launch/slam_gmapping.launch"/-->
+<!-- Hector SLAM -->
+<include file="$(find taurob_mi_launch)/launch/slam_hector.launch"/>
 
 <!-- Navigation stuff / move_base -->
 <include file="$(find taurob_mi_launch)/launch/move_base.launch"/>

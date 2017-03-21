@@ -23,7 +23,7 @@
 		<node ns="rear_chassis_cam" name="rear_chassis_cam_node" pkg="gscam" type="gscam" output="screen">
      <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
 
-     <param name="gscam_config" value="rtspsrc location=rtsp://$(arg user_name):Troboter3@$(arg ip):554/0/video0 latency=20 ! decodebin ! videoconvert"/>
+     <param name="gscam_config" value="rtspsrc location=rtsp://$(arg user_name):Troboter3@$(arg ip):554/0/video0 latency=20 ! decodebin ! ffmpegcolorspace"/>
 
      <param name="frame_id" value="$(arg frame_id)"/>
 		 <param name="image_encoding" value="rgb8"/>
