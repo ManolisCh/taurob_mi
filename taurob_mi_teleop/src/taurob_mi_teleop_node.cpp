@@ -75,16 +75,21 @@ public:
 
 private:
     void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
+    void flipper_joint_statesCallback(const control_msgs::JointTrajectoryControllerState::ConstPtr &msg);
 
     ros::NodeHandle nh_;
 
     int linear_axis_, angular_axis_, control_button_, stop_button_, auto_button_, teleop_button_, enable_vel_button_, lighton_button_, lightoff_button_, bluelighton_button_, bluelightoff_button_;
-    double linear_scaling_, angular_scaling_;
+    int axis_flipper_, button_flipper_front_down_, button_flipper_front_up_, button_flipper_rear_down_, button_flipper_rear_up_;
+    double linear_scaling_, angular_scaling_, scale_flipper_, scale_flipper_rear_, scale_flipper_front_;
+
+    std::vector<std::string> flipper_joint_names_;
+    trajectory_msgs::JointTrajectoryPoint current_flipper_joints_;
 
 
-    ros::Publisher vel_pub_, mode_pub_, light_pub_, bluelight_pub_ ;
+    ros::Publisher vel_pub_, mode_pub_, light_pub_, bluelight_pub_ , jointstate_pub_, flipper_joints_pub_;
 
-    ros::Subscriber joy_sub_;
+    ros::Subscriber joy_sub_, flipper_joint_states_sub_;
 
 };
 
@@ -109,13 +114,26 @@ JoystickTeleop::JoystickTeleop()
     nh_.param("lightoff_button", lightoff_button_, 7);     // start button
     nh_.param("lighton_button", lighton_button_, 6);     // back/select button
 
+    // default buttons and axis for flippers
+    nh_.param("axis_flipper", axis_flipper_, 4);
+    nh_.param("scale_flipper", scale_flipper_, 0.6);
+    nh_.param("button_flipper_front_down", button_flipper_front_down_, 0); //6,7;
+    nh_.param("button_flipper_front_up", button_flipper_front_up_, 1);
+    nh_.param("button_flipper_rear_down", button_flipper_rear_down_, 2);
+    nh_.param("button_flipper_rear_up", button_flipper_rear_up_, 3);
+    nh_.param("scale_flipper_front", scale_flipper_front_, 0.6);
+    nh_.param("scale_flipper_rear", scale_flipper_rear_, 0.6);
+
 
     vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/teleop/cmd_vel", 5);
     mode_pub_ = nh_.advertise<std_msgs::Int8>("/control_mode", 5);
     light_pub_ = nh_.advertise<std_msgs::Bool>("/light", 5);
     bluelight_pub_ = nh_.advertise<std_msgs::Bool>("/bluelight", 5);
+    jointstate_pub_ = nh_.advertise<sensor_msgs::JointState>("jointstate_cmd", 1);
+    flipper_joints_pub_= nh_.advertise<trajectory_msgs::JointTrajectory>("//flipper/flipper_traj_controller/command", 1);
 
     joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 2, &JoystickTeleop::joyCallback, this);
+    flipper_joint_states_sub_ = nh_.subscribe<control_msgs::JointTrajectoryControllerState>("/flipper/flipper_traj_controller/state", 1, &JoystickTeleop::flipper_joint_statesCallback, this);
 
 }
 
@@ -124,6 +142,9 @@ void JoystickTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     geometry_msgs::Twist cmd_vel;
     std_msgs::Int8 mode;
     std_msgs::Bool bluelight, light;
+    sensor_msgs::JointState jsm;
+    trajectory_msgs::JointTrajectory flipper_traj;
+    trajectory_msgs::JointTrajectoryPoint flipper_desired_joint_states;
 
 
     if (joy->buttons.size() > enable_vel_button_ && joy->buttons[enable_vel_button_])
@@ -185,9 +206,48 @@ void JoystickTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     }
 
 
+    // flipper control
+    jsm.header.frame_id = "flippers_front";
+    jsm.header.stamp = ros::Time::now();
+    jsm.name.push_back("flippers_front");
+    jsm.position.push_back(joy->axes[axis_flipper_] * scale_flipper_);
+    jointstate_pub_.publish(jsm);
 
 
+    // not sure at all what this bit from taurob original code does
 
+    ros::Duration dur(0.5);
+
+    for(int i=0; i < flipper_joint_names_.size(); i++)
+    {
+        flipper_traj.joint_names.push_back(flipper_joint_names_[i]);
+        if (i == 0)
+        {
+            flipper_desired_joint_states.positions.push_back(
+                        current_flipper_joints_.positions.at(i) +
+                        joy->buttons[button_flipper_front_up_] * -scale_flipper_front_ +
+                        joy->buttons[button_flipper_front_down_] * scale_flipper_front_);
+        }
+        else
+        {
+            flipper_desired_joint_states.positions.push_back(
+                        current_flipper_joints_.positions.at(i) +
+                        joy->buttons[button_flipper_rear_up_] * -scale_flipper_rear_ +
+                        joy->buttons[button_flipper_rear_down_] * scale_flipper_rear_);
+        }
+    }
+
+    flipper_desired_joint_states.time_from_start=dur;
+            flipper_traj.header.stamp = ros::Time::now();
+            flipper_traj.points.push_back(flipper_desired_joint_states);
+            flipper_joints_pub_.publish(flipper_traj);
+
+}
+
+void JoystickTeleop::flipper_joint_statesCallback(const control_msgs::JointTrajectoryControllerState::ConstPtr &msg)
+{
+    flipper_joint_names_= msg->joint_names;
+    current_flipper_joints_= msg->actual;
 }
 
 
