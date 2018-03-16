@@ -18,7 +18,8 @@ The original fuzzy controller was made using the version 4.0 of fuzzylite librar
 
 3) Use checkinstall to create a debian file instead of installing the library old school. It makes life easier e.g. you can install or remove library via apt-get. 
 ```sh
-sudo apt-get install checkinstal
+sudo apt-get install checkinstall
+cd release
 sudo checkinstall --pkgname=fuzzylight6
 ```
 4) The library is installed.
