@@ -24,6 +24,35 @@ sudo checkinstall --pkgname=fuzzylight6
 ```
 4) The library is installed.
 
+# Installing taurob new drivers
+For the taurob to work we need to use the new [drivers](https://github.com/taurob/taurobtrackerapi/tree/uecu) and more specifically the branch "uecu" (IMPORTANT!: do not forget to `git checkout uecu`).  These drivers require the clocks of the control units inside the robot to be synchronized via NTP with the computer that is running the ROS stack. More info in the taurob repository.
+# NTP synch for new drivers and ROS
+For that we can use chrony:  `sudo apt-get install chrony`. This synch process is also an important step because the clocks of the ocu and the robot computer need to synchronised in order for ROS to work properly, not just the drivers!
+
+ - To edit the chrony configuration file `sudo gedit /etc/chrony/chrony.conf` and then `invoke-rc.d chrony restart` to make your changes take effect.
+
+* Add the following lines to ‘/etc/chrony.conf’ (the order of the lines does not matter)
+
+Robot computer as server: 
+```
+bindaddress 10.0.0.100
+allow 10.0.0.0/24
+local stratum 10
+initstepslew 10 ocu
+manual
+```
+
+ocu computer as client:
+```
+server robot minpoll 0 maxpoll 5 maxdelay 0.3 iburst
+bindaddress 10.0.0.100
+allow 10.0.0.0/24
+local stratum 10
+initstepslew 20 robot
+```
+
+You may have a discrepancy in system times for various machines. You can check one machine against another using: `ntpdate -q other_computer_ip`
+
 # NOT YET UPDATED Running simulated experiment
 
 1) Run MORSE simulation via the morse_arena.py in experiments_launch->world
