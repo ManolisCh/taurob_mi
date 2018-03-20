@@ -1,20 +1,27 @@
-
 <launch>
-  
-  <arg name="watchdog_enabled" default="true" />
-  <arg name="robot_name" default="tracker" />
+  <!--
+    This launch file starts the drivers to control the robot and sets up robot/joint_state_publisher   nodes so that the robot can be controlled from the joint_state_publisher UI and the robot model
+    reflects the current state of the real robot.
 
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    Caution: The joint_state_publisher node starts with a default value of '0' for all arm angles, make
+    sure the robot is in the initial pose before using this launch file, otherwise it will start moving!
+  -->
+  <param
+    name="robot_description"
+    command="$(find xacro)/xacro.py $(find taurob_tracker_description)/urdf/tracker.urdf.xacro"/>
 
-  <include file="$(find taurob_tracker_description)/launch/load_description.launch">
-    <arg name="robot_name" value="$(arg robot_name)" />
-  </include>
+  <!--node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/-->
 
-  <include file="$(find taurob_watchdog)/launch/watchdog.launch" />
+  <include file="$(find taurob_watchdog)/launch/watchdog.launch"/>
+  <!--include file="$(find taurob_flipper_node)/launch/tracker.launch"/-->
 
-  <include file="$(find taurob_base_node)/launch/$(arg robot_name).launch">
-    <arg name="watchdog_enabled" value="$(arg watchdog_enabled)" />
-  </include>
+  <node pkg="taurob_base_node" type="taurob_base_node" name="taurob_base_node" output="screen">
+    <param name="tf_from_frame" value="base_link"/>
+    <param name="tf_to_frame" value="odom"/>
+    <param name="base_ip" value="10.0.0.2"/>
+    <param name="base_port" value="8080"/>
+    <param name="publish_tf" value="true"/>
+  </node>
 
 </launch>
 
