@@ -39,9 +39,7 @@
 <hr>
 
 @section usage Usage
-@par    After start roscore, you need load robot configuration file to parameter server first.
-        For example, I90 robot, you need load drrobotplayer_I90.yaml use command "rosparam load drrobotplayer_I90.yaml"
-        then run drrobot_player first. then start ros joy node.
+@par    
 @verbatim
 $ mixed_initiative_teleop
 @endverbatim
@@ -102,7 +100,7 @@ JoystickTeleop::JoystickTeleop()
 
     // Default scaling parameters
     nh_.param("scale_angular", angular_scaling_, 1.0);
-    nh_.param("scale_linear", linear_scaling_, 0.8);
+    nh_.param("scale_linear", linear_scaling_, 0.3);
 
     //Default buttons for Xbox 360 joystick.
     nh_.param("teleop_button", teleop_button_, 3); // Y button
