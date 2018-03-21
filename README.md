@@ -8,6 +8,7 @@ sudo apt-get install ros-kinetic-navigation
 sudo apt-get install ros-kinetic-joy
 sudo apt-get install ros-kinetic-audio-common
 sudo apt-get install ros-kinetic-frontier-exploration
+sudo apt-get install ros-kinetic-hector-slam
 ```
 
 # Installing fuzzylite 6 cpp library 
@@ -44,11 +45,11 @@ manual
 
 ocu computer as client:
 ```
-server robot minpoll 0 maxpoll 5 maxdelay 0.3 iburst
+server taurobot minpoll 0 maxpoll 5 maxdelay 0.3 iburst
 bindaddress 10.0.0.100
 allow 10.0.0.0/24
 local stratum 10
-initstepslew 20 robot
+initstepslew 20 taurobot
 ```
 
 You may have a discrepancy in system times for various machines. You can check one machine against another using: `ntpdate -q other_computer_ip`
@@ -59,7 +60,7 @@ You may have a discrepancy in system times for various machines. You can check o
 
 2) run on ROS the morse_arena.launch file in launch directory
 
-# NOT YET UPDATED Running real world experiment
+# Running real world experiment
 
 1) run on ROS the robot_nav.launch file on the robot. This will run all the neccesery nodes to control the robot via HI, teleop, automy.
 

@@ -10,7 +10,7 @@
     name="robot_description"
     command="$(find xacro)/xacro.py $(find taurob_tracker_description)/urdf/tracker.urdf.xacro"/>
 
-  <!--node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/-->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
 
   <include file="$(find taurob_watchdog)/launch/watchdog.launch"/>
   <!--include file="$(find taurob_flipper_node)/launch/tracker.launch"/-->

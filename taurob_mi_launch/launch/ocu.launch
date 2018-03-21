@@ -9,16 +9,16 @@
     <param name="deadzone" value="0.15" />
   </node>
 
-<node respawn="true" pkg="joy" type="joy_node" name="joy2_node" > <!-- second joystick for experimenter logging -->
-    <param name="dev" type="string" value="/dev/input/js1" />
+<!--node respawn="true" pkg="joy" type="joy_node" name="joy2_node" --> <!-- second joystick for experimenter logging -->
+    <!--<param name="dev" type="string" value="/dev/input/js1" />
     <remap from="/joy" to="/joy2" /> 
-   </node> 
+   </node--> 
 
 <!-- teleop node -->
 <node pkg="taurob_mi_teleop" type="taurob_mi_teleop_node" name="mi_teleop" output="screen"/>
 
 <!-- cmd mixer for choosing autonomy mode or e.g. emergency stop if nav doesnt work good. (buttons for teleoperation - stop - autonomy mode) -->
-<!-- In xbox controller Y =  teleop , A = auto , LB = stop (in any case) -->
+<!-- In xbox controller Y =  teleop , A = auto , LB = stop (in any case), only moves when RB is pressed while using joystick -->
 <node pkg="variable_autonomy" type="control_mixer_node" name="control_mixer" output="screen"/>
 
 <!-- Hector trajectory server for keeping history and visualizing of all the paths visited -->
