@@ -33,28 +33,23 @@ Alternatively `sudo make install`. In order to unistall if make install was used
 For the taurob to work we need to use the new [drivers](https://github.com/taurob/taurobtrackerapi/tree/uecu) and more specifically the branch "uecu" (IMPORTANT!: do not forget to `git checkout uecu`).  These drivers require the clocks of the control units inside the robot to be synchronized via NTP with the computer that is running the ROS stack. More info in the taurob repository.
 
 # Network setup
-A typical setup includes 2 computers. The on-board taurobot computer and the computer used by the operator (AKA operator control unit -ocu). Do `sudo gedit /etc/hosts` on both computers in order to add the host names: 
+A typical setup includes 2 computers. The on-board taurobot computer and the computer used by the operator (AKA operator control unit - OCU). The robot on-board computer has a static ip 10.0.0.3. The convension we will follow is to set a static ip 10.0.0.4 for the OCU via ubuntu network manager.
 
-Add one of the following lines:
+Once the static ips are in place we do `sudo gedit /etc/hosts` on both computers in order to add the host names. Add one of the following lines:
 
-In computer used as ocu: 
-
+In computer used as OCU: 
 127.0.1.1 	ocu
-
 10.0.0.3 	taurobot
 
-
 in robots computer:
-
 127.0.1.1	taurobot
-
 10.0.0.4        ocu
 
-Normally we need the roscore to start on the taurbot computer. For this to happen `gedit ~/.bashrc` in both computers. Add the line `export ROS_MASTER_URI=http://taurobot:11311`.
+Normally we need the roscore to start on the taurobot computer. For this to happen `gedit ~/.bashrc` in both computers. Add the line `export ROS_MASTER_URI=http://taurobot:11311`.
 
 
 # NTP synch for new drivers and ROS
-For that we can use chrony:  `sudo apt-get install chrony`. This synch process is also an important step because the clocks of the ocu and the robot computer need to synchronised in order for ROS to work properly, not just the drivers!
+Chrony can be used to synch the two computer and the sensors:  `sudo apt-get install chrony`. This synch process is also an important step because the clocks of the ocu and the robot computer need to synchronised in order for ROS to work properly, not just the drivers!
 
  - To edit the chrony configuration file `sudo gedit /etc/chrony/chrony.conf` and then `invoke-rc.d chrony restart` to make your changes take effect.
 
@@ -88,7 +83,7 @@ You may have a discrepancy in system times for various machines. You can check o
 
 # Running real world experiment
 
-1) Run on the taurb computer `roslaunch taurob_mi_launch robot_nav.launch` or `roslaunch taurob_mi_launch robot_slam.launch`. This will run all the neccesery nodes to control the robot via HI, teleop, automy.
+1) Run on the taurob computer `roslaunch taurob_mi_launch robot_nav.launch` or `roslaunch taurob_mi_launch robot_slam.launch`. This will run all the neccesery nodes to control the robot via HI, teleop, automy.
 
 2) Run on the OCU `roslaunch taurob_mi_launch ocu.launch`. This will run all the nodes to control the robot from the OCU (joystick needed).
 
