@@ -99,7 +99,7 @@ JoystickTeleop::JoystickTeleop()
     nh_.param("axis_angular", angular_axis_, 0);
 
     // Default scaling parameters
-    nh_.param("scale_angular", angular_scaling_, 1.0);
+    nh_.param("scale_angular", angular_scaling_, 0.7);
     nh_.param("scale_linear", linear_scaling_, 0.3);
 
     //Default buttons for Xbox 360 joystick.

@@ -12,7 +12,7 @@ sudo apt-get install ros-kinetic-hector-slam
 ```
 
 # Installing fuzzylite 6 cpp library 
-The original fuzzy controller was made using the version 4.0 of fuzzylite library. However this older version does not seem to work in ubuntu 16.04 and ROS kinetic. Thus fuzzylite 6.0 can be used. WARNING: the fuzzy controller compiled with version 6 of fuzzylite was not tested in practice.
+The original fuzzy controller was made using the version 4.0 of fuzzylite library. However this older version does not seem to work in ubuntu 16.04 and ROS kinetic. Thus fuzzylite 6.0 can be used. WARNING: the fuzzy controller to be compiled with version 6 of fuzzylite was not tested in practice. Some code changes were neccessery fot it to compile, hence the behivior might have changed (unlikely though!).
 1) Do a `cd` into the fuzzylite folder.
 
 2)  run `./build.sh release`
@@ -83,8 +83,10 @@ You may have a discrepancy in system times for various machines. You can check o
 
 # Running real world experiment
 
-1) run on ROS the robot_nav.launch file on the robot. This will run all the neccesery nodes to control the robot via HI, teleop, automy.
+1) Run on the taurb computer `roslaunch taurob_mi_launch robot_nav.launch` or `roslaunch taurob_mi_launch robot_slam.launch`. This will run all the neccesery nodes to control the robot via HI, teleop, automy.
 
-2) run on ROS the operator.launch file on the OCU computer.. This will run all the nodes to control the robot from the OCU (joystick needed).
+2) Run on the OCU `roslaunch taurob_mi_launch ocu.launch`. This will run all the nodes to control the robot from the OCU (joystick needed).
 
-3) run on ROS the mi_control.launch file on the robot. This will enable the MI control to run on the robot.
+3) Run on the OCU `rosrun taurob_watchdog_client taurob_watchdog_client 10.0.0.3`. This will run the watchdog (for safety) client node.
+
+4) run on ROS the mi_control.launch file on the robot. This will enable the MI control to run on the robot.
