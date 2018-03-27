@@ -38,11 +38,16 @@ A typical setup includes 2 computers. The on-board taurobot computer and the com
 Add one of the following lines:
 
 In computer used as ocu: 
+
 127.0.1.1 	ocu
+
 10.0.0.3 	taurobot
 
+
 in robots computer:
+
 127.0.1.1	taurobot
+
 10.0.0.4        ocu
 
 Normally we need the roscore to start on the taurbot computer. For this to happen `gedit ~/.bashrc` in both computers. Add the line `export ROS_MASTER_URI=http://taurobot:11311`.
