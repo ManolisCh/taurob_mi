@@ -18,15 +18,36 @@ The original fuzzy controller was made using the version 4.0 of fuzzylite librar
 2)  run `./build.sh release`
 
 3) Use checkinstall to create a debian file instead of installing the library old school. It makes life easier e.g. you can install or remove library via apt-get. 
+
 ```sh
 sudo apt-get install checkinstall
 cd release
 sudo checkinstall --pkgname=fuzzylight6
 ```
+
+Alternatively `sudo make install`. In order to unistall if make install was used, `cat install_manifest.txt | xargs echo sudo rm | sh`.
+
 4) The library is installed.
 
 # Installing taurob new drivers
 For the taurob to work we need to use the new [drivers](https://github.com/taurob/taurobtrackerapi/tree/uecu) and more specifically the branch "uecu" (IMPORTANT!: do not forget to `git checkout uecu`).  These drivers require the clocks of the control units inside the robot to be synchronized via NTP with the computer that is running the ROS stack. More info in the taurob repository.
+
+# Network setup
+A typical setup includes 2 computers. The on-board taurobot computer and the computer used by the operator (AKA operator control unit -ocu). Do `sudo gedit /etc/hosts` on both computers in order to add the host names: 
+
+Add one of the following lines:
+
+In computer used as ocu: 
+127.0.1.1 	ocu
+10.0.0.3 	taurobot
+
+in robots computer:
+127.0.1.1	taurobot
+10.0.0.4        ocu
+
+Normally we need the roscore to start on the taurbot computer. For this to happen `gedit ~/.bashrc` in both computers. Add the line `export ROS_MASTER_URI=http://taurobot:11311`.
+
+
 # NTP synch for new drivers and ROS
 For that we can use chrony:  `sudo apt-get install chrony`. This synch process is also an important step because the clocks of the ocu and the robot computer need to synchronised in order for ROS to work properly, not just the drivers!
 
