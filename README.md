@@ -35,14 +35,18 @@ For the taurob to work we need to use the new [drivers](https://github.com/tauro
 # Network setup
 A typical setup includes 2 computers. The on-board taurobot computer and the computer used by the operator (AKA operator control unit - OCU). The robot on-board computer has a static ip 10.0.0.3. The convension we will follow is to set a static ip 10.0.0.4 for the OCU via ubuntu network manager.
 
-Once the static ips are in place we do `sudo gedit /etc/hosts` on both computers in order to add the host names. Add one of the following lines:
+Once the static ips are in place we do `sudo gedit /etc/hosts` on both computers in order to add the host names. Add one of the following:
 
 In computer used as OCU: 
+
 127.0.1.1 	ocu
+
 10.0.0.3 	taurobot
 
 in robots computer:
+
 127.0.1.1	taurobot
+
 10.0.0.4        ocu
 
 Normally we need the roscore to start on the taurobot computer. For this to happen `gedit ~/.bashrc` in both computers. Add the line `export ROS_MASTER_URI=http://taurobot:11311`.
