@@ -25,7 +25,13 @@ cd release
 sudo checkinstall --pkgname=fuzzylight6
 ```
 
-Alternatively `sudo make install`. In order to unistall if make install was used, `cat install_manifest.txt | xargs echo sudo rm | sh`.
+Alternatively:
+```sh
+cd release
+sudo make install
+````
+
+In order to unistall, if make install was used, `cat install_manifest.txt | xargs echo sudo rm | sh`.
 
 4) The library is installed.
 
