@@ -1,4 +1,5 @@
-<?xml version="1.0"?>
+
+
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="taurob_mi">
   <xacro:property name="flipper_offset_x" value="0.205"/>
   <xacro:property name="flipper_offset_y" value="0.15"/>
@@ -11,5 +12,9 @@
 
   <tracker_chassis_macro/>
 
+
+   <!--LASER--> 
+   <xacro:include filename="$(find taurob_mi_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
+     
 
 </robot>

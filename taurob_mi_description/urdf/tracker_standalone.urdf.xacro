@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot name="taurob_tracker"
-    xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+    xmlns:xacro="http://ros.org/wiki/xacro">
     
     <property name="flipper_offset_x" value="0.205" />
     <property name="flipper_offset_y" value="0.15" />
@@ -22,11 +22,13 @@
     <taurob_arm_macro parent="base_link">
       <origin xyz="0.12 0 0.185" rpy="0 0 ${M_PI/2}"/>
     </taurob_arm_macro >
+   
     
     <xacro:include filename="$(find hector_components_description)/urdf/spinning_hokuyo_utm30lx.urdf.xacro" />
      
     <spinning_hokuyo_utm30lx_lidar_mount_offset_macro parent="chassis_link" name="front" angle_deg="34">
       <origin xyz="0.0 0 0.0" rpy="0 ${45 * M_PI/180.0} 0"/>
     </spinning_hokuyo_utm30lx_lidar_mount_offset_macro >   
-    -->
+ -->
+   
 </robot>

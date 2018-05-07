@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="taurob_mi">
   <xacro:include filename="$(find taurob_mi_description)/urdf/inertia_tensors.urdf.xacro"/>
   <xacro:property name="base_size_x" value="${0.365*2}"/>
@@ -48,7 +47,7 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://taurob_mi_description/meshes/tracker_chassis.dae"/>
+          <mesh filename="package://taurob_mi_description/meshes/taurob/tracker_chassis.dae"/>
         </geometry>
       </visual>
       <collision>
@@ -72,4 +71,28 @@
     </link>
 
   </xacro:macro>
+
+
+<!-- gazebo plugins to control and simulate robot -->
+ <gazebo>
+
+
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>ground_truth/state</topicName>
+      <gaussianNoise>0.01</gaussianNoise>
+      <frameName>world</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+
+
+
+
+
+
+  </gazebo>
+  
 </robot>
