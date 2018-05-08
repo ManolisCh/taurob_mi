@@ -1,6 +1,7 @@
 
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="taurob_mi">
+
   <xacro:property name="flipper_offset_x" value="0.205"/>
   <xacro:property name="flipper_offset_y" value="0.15"/>
   <xacro:property name="flipper_offset_z" value="0.099"/>
@@ -8,13 +9,17 @@
   <xacro:property name="M_PI" value="3.14159"/>
   <xacro:property name="angle_deg" value="45"/>
 
+ <!--main chassis-->
   <xacro:include filename="$(find taurob_mi_description)/urdf/taurob_mi_chassis.urdf.xacro"/>
+
+ <!--schunk lwa4d arm-->
+  <xacro:include filename="$(find taurob_schunk_lwa4d)/urdf/taurob_schunk_lwa4d.urdf.xacro"/>
 
   <tracker_chassis_macro/>
 
 
-   <!--LASER--> 
-   <xacro:include filename="$(find taurob_mi_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
+ <!--LASER--> 
+  <xacro:include filename="$(find taurob_mi_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
      
 
 </robot>

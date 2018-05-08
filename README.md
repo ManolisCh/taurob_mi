@@ -9,6 +9,7 @@ sudo apt-get install ros-kinetic-joy
 sudo apt-get install ros-kinetic-audio-common
 sudo apt-get install ros-kinetic-frontier-exploration
 sudo apt-get install ros-kinetic-hector-slam
+sudo apt-get install ros-kinetic-hector-gazebo-plugins
 ```
 
 # Installing fuzzylite 6 cpp library 
