@@ -1,11 +1,14 @@
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="taurob_mi">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
   <xacro:include filename="$(find taurob_mi_description)/urdf/inertia_tensors.urdf.xacro"/>
+  <xacro:include filename="$(find taurob_mi_description)/urdf/taurob_mi_chassis.gazebo.xacro" />
+
   <xacro:property name="base_size_x" value="${0.365*2}"/>
   <xacro:property name="base_size_y" value="0.24"/>
   <xacro:property name="base_size_z" value="0.312 "/>
   <xacro:property name="base_offset_x" value="-0.122"/>
   <xacro:property name="base_offset_z" value="-0.05"/>
-  <xacro:macro name="tracker_chassis_macro">
+
 
     <link name="base_link"/>
 
@@ -70,59 +73,4 @@
       </collision>
     </link>
 
-  </xacro:macro>
-
-
-<!-- gazebo ROS plugins -->
-
- <gazebo>
-
-
-    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
-      <alwaysOn>true</alwaysOn>
-      <updateRate>50.0</updateRate>
-      <bodyName>base_link</bodyName>
-      <topicName>ground_truth/state</topicName>
-      <gaussianNoise>0.01</gaussianNoise>
-      <frameName>world</frameName>
-      <xyzOffsets>0 0 0</xyzOffsets>
-      <rpyOffsets>0 0 0</rpyOffsets>
-    </plugin>
-
-
-    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
-      <alwaysOn>true</alwaysOn>
-      <updateRate>50.0</updateRate>
-      <bodyName>base_link</bodyName>
-      <topicName>/imu/data</topicName>
-      <accelDrift>0.0 0.0 0.0</accelDrift>
-      <accelGaussianNoise>0.1 0.1 0.1</accelGaussianNoise>
-      <rateDrift>0.0 0.0 0.0</rateDrift>
-      <rateGaussianNoise>0.05 0.05 0.05</rateGaussianNoise>
-      <headingDrift>0.0</headingDrift>
-      <headingGaussianNoise>0.05</headingGaussianNoise>
-    </plugin>
-
-
-<!-- We need to model the wheel joints for that and take some values from hector e.g. torque -->
-
-  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
-    <updateRate>100.0</updateRate>
-    <robotNamespace>/</robotNamespace>
-    <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
-    <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
-    <leftRearJoint>back_left_wheel_joint</leftRearJoint>
-    <rightRearJoint>back_right_wheel_joint</rightRearJoint>
-    <wheelSeparation>0.4</wheelSeparation>
-    <wheelDiameter>0.215</wheelDiameter>
-    <robotBaseFrame>base_link</robotBaseFrame>
-    <torque>50000</torque>
-    <topicName>cmd_vel</topicName>
-    <broadcastTF>true</broadcastTF>
-  </plugin> 
-
-
-  </gazebo>
-
-  
 </robot>
