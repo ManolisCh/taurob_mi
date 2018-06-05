@@ -4,6 +4,8 @@ There are a few dependencies that need to be installed before the packages can w
 # Installing ROS dependencies 
 ```sh
 rosdep install gscam
+sudo apt-get install ros-kinetic-urg-node
+sudo apt-get install ros-kinetic-slam-gmapping
 sudo apt-get install ros-kinetic-navigation
 sudo apt-get install ros-kinetic-joy
 sudo apt-get install ros-kinetic-audio-common
