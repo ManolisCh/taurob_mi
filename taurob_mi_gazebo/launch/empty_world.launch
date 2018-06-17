@@ -13,7 +13,7 @@
   <arg name="debug" default="false"/>
   <arg name="physics" default="ode"/>
   <arg name="verbose" default="false"/>
-  <arg name="world_name" value="$(find taurob_mi_gazebo)/worlds/simple.world"/>  
+  <arg name="world_name" value="$(find taurob_mi_gazebo)/worlds/simple.world"/>
   <arg name="respawn_gazebo" default="false"/>
   <arg name="use_clock_frequency" default="false"/>
   <arg name="pub_clock_frequency" default="100"/>
@@ -44,7 +44,7 @@
   </group>
 
 <!-- Convert an xacro and put on parameter server -->
-<param name="robot_description" command="$(find xacro)/xacro --inorder $(find taurob_mi_description)/urdf/taurob_mi.urdf.xacro" />
+<param name="robot_description" command="$(find xacro)/xacro --inorder $(find taurob_erl_description)/urdf/taurob_erl.urdf.xacro" />
 
 <!-- Spawn a robot into Gazebo -->
 <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model taurob_mi" />
