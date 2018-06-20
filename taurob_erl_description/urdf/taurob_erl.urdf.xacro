@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 
-<robot name="taurob_tracker" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="taurob_erl" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!--Required to quickly work around bug in collada_urdf (https://github.com/ros/robot_model/issues/132)-->
   <xacro:property name="box_scale_factor" value="1.0" />
   <xacro:property name="M_PI" value="3.14159"/>
 
   <xacro:include filename="$(find taurob_erl_description)/urdf/taurob_chassis.urdf.xacro.xml" />
-  <xacro:tracker_chassis_macro />
 
   <xacro:include filename="$(find taurob_erl_description)/urdf/taurob_chassis_cameras.urdf.xacro.xml" />
   <xacro:tracker_chassis_cameras_macro />
@@ -15,6 +14,13 @@
   <!--LASER-->
    <xacro:include filename="$(find taurob_erl_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
 
+  <!--schunk lwa4d arm-->
+    <xacro:include filename="$(find taurob_schunk_lwa4d)/urdf/lwa4d/lwa4d.urdf.xacro" />
+
+    <xacro:schunk_lwa4d name="arm" parent="base_link" has_podest="true" use_factory_settings="true">
+      <origin xyz="0.12 0 0.185" rpy="0 0 ${M_PI/2}" />
+    </xacro:schunk_lwa4d>
+    
 
   <!--
   <xacro:generic_camera name="left" parent="base_link" ros_topic="image_mono" cam_info_topic="camera_info" update_rate="10" res_x="640" res_y="480" image_format="L8" hfov="120">

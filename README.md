@@ -1,11 +1,11 @@
 # Variable autonomy for the taurobot robot
 There are a few dependencies that need to be installed before the packages can work/compiled.
 
-# Installing ROS dependencies 
+# Installing ROS dependencies
 ```sh
 rosdep install gscam
 sudo apt-get install ros-kinetic-urg-node
-sudo apt-get install ros-kinetic-slam-gmapping
+sudo apt-get install ros-kinetic-gmapping
 sudo apt-get install ros-kinetic-navigation
 sudo apt-get install ros-kinetic-joy
 sudo apt-get install ros-kinetic-audio-common
@@ -14,13 +14,13 @@ sudo apt-get install ros-kinetic-hector-slam
 sudo apt-get install ros-kinetic-hector-gazebo-plugins
 ```
 
-# Installing fuzzylite 6 cpp library 
+# Installing fuzzylite 6 cpp library
 The original fuzzy controller was made using the version 4.0 of fuzzylite library. However this older version does not seem to work in ubuntu 16.04 and ROS kinetic. Thus fuzzylite 6.0 can be used. WARNING: the fuzzy controller to be compiled with version 6 of fuzzylite was not tested in practice. Some code changes were neccessery fot it to compile, hence the behivior might have changed (unlikely though!).
 1) Do a `cd` into the fuzzylite folder.
 
 2)  run `./build.sh release`
 
-3) Use checkinstall to create a debian file instead of installing the library old school. It makes life easier e.g. you can install or remove library via apt-get. 
+3) Use checkinstall to create a debian file instead of installing the library old school. It makes life easier e.g. you can install or remove library via apt-get.
 
 ```sh
 sudo apt-get install checkinstall
@@ -46,7 +46,7 @@ A typical setup includes 2 computers. The on-board taurobot computer and the com
 
 Once the static ips are in place we do `sudo gedit /etc/hosts` on both computers in order to add the host names. Add one of the following:
 
-In computer used as OCU: 
+In computer used as OCU:
 
 127.0.1.1 	ocu
 
@@ -68,7 +68,7 @@ Chrony can be used to synch the two computer and the sensors:  `sudo apt-get ins
 
 * Add the following lines to ‘/etc/chrony.conf’ (the order of the lines does not matter)
 
-Robot computer as server: 
+Robot computer as server:
 ```
 bindaddress 10.0.0.100
 allow 10.0.0.0/24
