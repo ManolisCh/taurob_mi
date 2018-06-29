@@ -26,8 +26,15 @@ See https://bitbucket.org/osrf/gazebo/issues/863/tracksdriveplugin for some furt
   <xacro:property name="wheel_radius" value="0.2" />
   <xacro:property name="diff_z_offset" value="-0.12" />
 
-  <gazebo>
+  <gazebo reference="motor_track_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
 
+  <gazebo reference="flipper_front_link">
+   <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
       <updateRate>50.0</updateRate>
@@ -57,8 +64,12 @@ See https://bitbucket.org/osrf/gazebo/issues/863/tracksdriveplugin for some furt
       <robotNamespace>tracker_controllers</robotNamespace>
     </plugin>
 
+    <!-- ros_control plugin -->
+    <plugin name="gazebo_ros_control_select_joints" filename="libgazebo_ros_control_select_joints.so">
+      <robotNamespace>flipper_control</robotNamespace>
+      <joints>flipper_front_joint</joints>
+    </plugin>
   </gazebo>
-
 
 
   <macro name="tracker_chassis_gazebo_force_based_move_macro">
@@ -81,6 +92,7 @@ See https://bitbucket.org/osrf/gazebo/issues/863/tracksdriveplugin for some furt
       <minDepth>0.001</minDepth>
       <maxVel>1.0</maxVel>
     </gazebo>
+
 
     <gazebo>
       <plugin name="force_based_move_controller" filename="libgazebo_ros_force_based_move.so">

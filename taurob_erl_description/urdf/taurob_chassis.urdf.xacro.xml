@@ -5,7 +5,7 @@
   <xacro:include filename="$(find taurob_erl_description)/urdf/inertia_tensors.urdf.xacro" />
 
   <property name="tracker_base_size_x" value="1.0" />
-  <property name="tracker_base_size_y" value="0.5" />
+  <property name="tracker_base_size_y" value="0.58" />
   <property name="tracker_base_size_z" value="0.2 " />
 
   <property name="tracker_base_offset_x" value="-0.122" />
@@ -21,9 +21,10 @@
   <!--Below pending clarification-->
   <property name="track_offset_z" value="-0.09" />
 
-  <property name="track_wheel_radius" value="0.13" />
+  <property name="track_wheel_radius" value="0.105" />
   <property name="track_width" value="0.0925" />
 
+<!-- inlcude file with gazebo stuff -->
   <xacro:include filename="$(find taurob_erl_description)/urdf/taurob_chassis.gazebo.xacro.xml" />
    <xacro:tracker_chassis_gazebo_force_based_move_macro />
 
@@ -43,64 +44,6 @@
         <origin xyz="${-tracker_base_size_x*0.25} 0.0 -0.05" rpy="0 0 0" />
       </xacro:inertial_cuboid_with_pose>
 
-      <!--Primitives with materials need to be used before .dae, otherwise material does not get applied-->
-      <visual>
-        <origin xyz="${tracker_base_offset_x - flipper_offset_x - (tracker_base_size_x*0.5-track_wheel_radius-flipper_offset_x)*0.5} -${track_offset_y} ${track_offset_z}" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="package://taurob_erl_description/meshes/tracker_chassis_sides.dae"/>
-        </geometry>
-        <material name="black">
-          <color rgba="0 0 0 1"/>
-        </material>
-      </visual>
-      <visual>
-        <origin xyz="${tracker_base_offset_x - flipper_offset_x - (tracker_base_size_x*0.5-track_wheel_radius-flipper_offset_x)*0.5} ${track_offset_y} ${track_offset_z}" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="package://taurob_erl_description/meshes/tracker_chassis_sides.dae"/>
-        </geometry>
-        <material name="black">
-          <color rgba="0 0 0 1"/>
-        </material>
-      </visual>
-
-      <visual>
-        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://taurob_erl_description/meshes/tracker_chassis_no_tracks.dae"/>
-        </geometry>
-      </visual>
-
-      <!--Left/right track box geoms-->
-      <collision>
-        <origin xyz="${tracker_base_offset_x - flipper_offset_x - (tracker_base_size_x*0.5-track_wheel_radius-flipper_offset_x)*0.5} -${track_offset_y} ${track_offset_z}" rpy="0 0 0"/>
-        <geometry>
-          <box size="${tracker_base_size_x*0.5-track_wheel_radius-flipper_offset_x} ${track_width} ${track_wheel_radius*2}"/>
-        </geometry>
-      </collision>
-      <collision>
-        <origin xyz="${tracker_base_offset_x - flipper_offset_x - (tracker_base_size_x*0.5-track_wheel_radius-flipper_offset_x)*0.5}  ${track_offset_y} ${track_offset_z}" rpy="0 0 0"/>
-        <geometry>
-          <box size="${tracker_base_size_x*0.5-track_wheel_radius-flipper_offset_x} ${track_width} ${track_wheel_radius*2}"/>
-        </geometry>
-      </collision>
-
-	  <!--Left/right back track cylinder geoms-->
-      <collision>
-        <origin xyz="${tracker_base_offset_x-(tracker_base_size_x*0.5-track_wheel_radius)} -${track_offset_y} ${track_offset_z}" rpy="${M_PI/2} 0 0"/>
-        <geometry>
-          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
-        </geometry>
-        <material name="red">
-          <color rgba="1 0 0 1"/>
-        </material>
-      </collision>
-      <collision>
-        <origin xyz="${tracker_base_offset_x-(tracker_base_size_x*0.5-track_wheel_radius)} ${track_offset_y} ${track_offset_z}" rpy="${M_PI/2} 0 0"/>
-        <geometry>
-          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
-        </geometry>
-      </collision>
-
       <!--Chassis middle-->
       <collision>
         <origin xyz="${tracker_base_offset_x-0.13} 0.0 ${tracker_base_offset_z+0.005}" rpy="0 0 0"/>
@@ -109,39 +52,253 @@
         </geometry>
       </collision>
 
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://taurob_erl_description/meshes/tracker_chassis_no_tracks.dae"/>
+        </geometry>
+      </visual>
 
-      <!--Left track cylinder (front/back) geoms-->
-      <!--
-      <collision>
-        <origin xyz="${tracker_base_offset_x + tracker_base_size_x*0.5 - track_wheel_radius} ${track_offset_y} ${tracker_base_offset_z}" rpy="${M_PI*0.5} 0 0"/>
-        <geometry>
-          <cylinder radius="${track_wheel_radius}" length="${track_width}" />
-        </geometry>
-      </collision>
-      <collision>
-        <origin xyz="${tracker_base_offset_x -tracker_base_size_x*0.5 + track_wheel_radius} ${track_offset_y} ${tracker_base_offset_z}" rpy="${M_PI*0.5} 0 0"/>
-        <geometry>
-          <cylinder radius="${track_wheel_radius}" length="${track_width}" />
-        </geometry>
-      </collision>
-      -->
-      <!--Right track cylinder (front/back) geoms-->
-      <!--
-      <collision>
-        <origin xyz="${tracker_base_offset_x + tracker_base_size_x*0.5 - track_wheel_radius} -${track_offset_y} ${tracker_base_offset_z}" rpy="${M_PI*0.5} 0 0"/>
-        <geometry>
-          <cylinder radius="${track_wheel_radius}" length="${track_width}" />
-        </geometry>
-      </collision>
-      <collision>
-        <origin xyz="${tracker_base_offset_x - tracker_base_size_x*0.5 + track_wheel_radius} -${track_offset_y} ${tracker_base_offset_z}" rpy="${M_PI*0.5} 0 0"/>
-        <geometry>
-          <cylinder radius="${track_wheel_radius}" length="${track_width}" />
-        </geometry>
-      </collision>
-      -->
     </link>
 
+  <!--Front flipper link -->
+        <link name="flipper_front_link">
+          <xacro:inertial_cuboid_with_pose mass="1.0" x_length="${tracker_base_size_x*0.5}" y_length="${track_width*2}" z_length="0.17651" >
+            <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius*2} 0.0 0.0" rpy="0 0 0" />
+          </xacro:inertial_cuboid_with_pose>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+
+          <visual>
+            <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+            <material name="black">
+              <color rgba="0 0 0 1"/>
+            </material>
+          </visual>
+
+          <visual>
+            <origin xyz="0 -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+            <material name="black">
+              <color rgba="0 0 0 1"/>
+            </material>
+          </visual>
+
+          <visual>
+            <origin xyz="${(tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x)*0.5} -${track_offset_y} 0.0" rpy="0 0 0"/>
+            <geometry>
+              <box size="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} ${track_width} ${track_wheel_radius*2}"/>
+            </geometry>
+            <material name="black">
+              <color rgba="0 0 0 1"/>
+            </material>
+          </visual>
+
+          <visual>
+            <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+            <material name="black">
+              <color rgba="0 0 0 1"/>
+            </material>
+          </visual>
+
+          <visual>
+            <origin xyz="0 ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+            <material name="black">
+              <color rgba="0 0 0 1"/>
+            </material>
+          </visual>
+
+          <visual>
+            <origin xyz="${(tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x)*0.5} ${track_offset_y} 0.0" rpy="0 0 0"/>
+            <geometry>
+              <box size="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} ${track_width} ${track_wheel_radius*2}"/>
+            </geometry>
+            <material name="black">
+              <color rgba="0 0 0 1"/>
+            </material>
+          </visual>
+
+
+          <collision>
+            <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+          </collision>
+
+          <collision>
+            <origin xyz="0 -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+          </collision>
+
+          <collision>
+            <origin xyz="${(tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x)*0.5} -${track_offset_y} 0.0" rpy="0 0 0"/>
+            <geometry>
+              <box size="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} ${track_width} ${track_wheel_radius*2}"/>
+            </geometry>
+          </collision>
+
+          <collision>
+            <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+          </collision>
+
+          <collision>
+            <origin xyz="0 ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+            <geometry>
+              <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+            </geometry>
+          </collision>
+
+          <collision>
+            <origin xyz="${(tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x)*0.5} ${track_offset_y} 0.0" rpy="0 0 0"/>
+            <geometry>
+              <box size="${tracker_base_size_x*0.5-track_wheel_radius+flipper_offset_x} ${track_width} ${track_wheel_radius*2}"/>
+            </geometry>
+          </collision>
+        </link>
+
+<!--Front flipper joint -->
+        <joint name="flipper_front_joint" type="fixed">
+          <origin xyz="${tracker_base_offset_x-flipper_offset_x} 0 ${track_offset_z}" rpy="0 0 0" />
+          <axis xyz="0 1 0"/>
+          <parent link="chassis_link"/>
+          <child link="flipper_front_link"/>
+        </joint>
+
+
+<!--back/motor tracks link -->
+        <link name="motor_track_link">
+      <xacro:inertial_cuboid_with_pose mass="2.0" x_length="${tracker_base_size_x*0.25}" y_length="${track_width*2}" z_length="0.17651" >
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      </xacro:inertial_cuboid_with_pose>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+
+      <visual>
+        <origin xyz="${tracker_base_size_x-2*track_wheel_radius-flipper_upper_shortening_x} -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+      <visual>
+        <origin xyz="0 -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+         <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+      <visual>
+        <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius-flipper_upper_shortening_x*0.5} -${track_offset_y} 0.0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${tracker_base_size_x-2*track_wheel_radius-flipper_upper_shortening_x} ${track_width} ${track_wheel_radius*2}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+      <visual>
+        <origin xyz="${tracker_base_size_x-2*track_wheel_radius-flipper_upper_shortening_x} ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+      <visual>
+        <origin xyz="0 ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+      <visual>
+        <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius-flipper_upper_shortening_x*0.5} ${track_offset_y} 0.0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${tracker_base_size_x-2*track_wheel_radius-flipper_upper_shortening_x} ${track_width} ${track_wheel_radius*2}"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1"/>
+        </material>
+      </visual>
+
+
+      <collision>
+        <origin xyz="${tracker_base_size_x-2*track_wheel_radius} -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="0 -${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius} -${track_offset_y} 0.0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${tracker_base_size_x-2*track_wheel_radius} ${track_width} ${track_wheel_radius*2}"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="${tracker_base_size_x-2*track_wheel_radius} ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="0 ${track_offset_y} 0.0" rpy="${M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder length="${track_width}" radius="${track_wheel_radius}"/>
+        </geometry>
+      </collision>
+
+      <collision>
+        <origin xyz="${tracker_base_size_x*0.5-track_wheel_radius} ${track_offset_y} 0.0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${tracker_base_size_x-2*track_wheel_radius} ${track_width} ${track_wheel_radius*2}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- motor_joint -->
+    <joint name="motor_joint" type="fixed">
+      <origin xyz="${tracker_base_offset_x-(tracker_base_size_x*0.5-track_wheel_radius)} 0 ${track_offset_z}" rpy="0 0 0" />
+      <axis xyz="0 1 0"/>
+      <parent link="chassis_link"/>
+      <child link="motor_track_link"/>
+    </joint>
 
 
 </robot>
