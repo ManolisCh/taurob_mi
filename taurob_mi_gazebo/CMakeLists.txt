@@ -9,7 +9,7 @@ project(taurob_mi_gazebo)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
-  taurob_mi_description
+  taurob_erl_description
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES taurob_mi_gazebo
-#  CATKIN_DEPENDS gazebo_ros taurob_mi_description
+#  CATKIN_DEPENDS gazebo_ros taurob_erl_description
 #  DEPENDS system_lib
 )
 
