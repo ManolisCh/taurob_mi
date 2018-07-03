@@ -8,13 +8,15 @@
 
   <xacro:include filename="$(find taurob_erl_description)/urdf/taurob_chassis.urdf.xacro.xml" />
 
+<!--
   <xacro:include filename="$(find taurob_erl_description)/urdf/taurob_chassis_cameras.urdf.xacro.xml" />
   <xacro:tracker_chassis_cameras_macro />
-
+-->
   <!--LASER-->
-   <xacro:include filename="$(find taurob_erl_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
+  <xacro:include filename="$(find taurob_erl_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
 
   <!--schunk lwa4d arm-->
+
     <xacro:include filename="$(find taurob_schunk_lwa4d)/urdf/lwa4d/lwa4d.urdf.xacro" />
 
     <xacro:schunk_lwa4d name="arm" parent="base_link" has_podest="true" use_factory_settings="true">
@@ -27,7 +29,6 @@
     <xacro:schunk_pg70 name="pg70" parent="arm_ee_link">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:schunk_pg70>
-
 
   <!--
   <xacro:generic_camera name="left" parent="base_link" ros_topic="image_mono" cam_info_topic="camera_info" update_rate="10" res_x="640" res_y="480" image_format="L8" hfov="120">
