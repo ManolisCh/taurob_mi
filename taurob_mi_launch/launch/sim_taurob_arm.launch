@@ -68,9 +68,9 @@
   <node ns="pg70" pkg="cob_helper_tools" type="fake_driver.py" name="fake_driver" cwd="node" respawn="false" output="screen"/>
 
   <!-- controllers -->
-  <rosparam ns="arm" command="load" file="$(find taurob_schunk_lwa4d)/config/arm_controller.yaml" />
-  <rosparam ns="arm" command="load" file="$(find taurob_schunk_lwa4d)/config/joint_limits.yaml"/>
-  <rosparam ns="pg70" command="load" file="$(find erl_schunk_pg70)/config/gripper_controller.yaml" />
+  <rosparam ns="arm" command="load" file="$(find erl_lwa4d)/config/arm_controller.yaml" />
+  <rosparam ns="arm" command="load" file="$(find erl_lwa4d)/config/joint_limits.yaml"/>
+  <rosparam ns="pg70" command="load" file="$(find erl_pg70)/config/gripper_controller.yaml" />
 
   <!-- start_controllers -->
   <node ns="arm" name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn joint_state_controller" respawn="false" output="screen"/>
@@ -85,12 +85,12 @@
 
   <!-- start diagnostics -->
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
-    <rosparam command="load" file="$(find taurob_schunk_lwa4d)/config/diagnostics_analyzers.yaml" />
+    <rosparam command="load" file="$(find erl_lwa4d)/config/diagnostics_analyzers.yaml" />
   </node>
   <node pkg="cob_dashboard" type="cob_dashboard_aggregator.py" name="dashboard_aggregator" />
 
   <!-- upload script server parameters -->
-  <rosparam command="load" ns="/script_server/arm" file="$(find taurob_schunk_lwa4d)/config/joint_configurations.yaml"/>
-  <rosparam command="load" ns="/script_server/gripper" file="$(find erl_schunk_pg70)/config/joint_configurations.yaml"/>
+  <rosparam command="load" ns="/script_server/arm" file="$(find erl_lwa4d)/config/joint_configurations.yaml"/>
+  <rosparam command="load" ns="/script_server/gripper" file="$(find erl_pg70)/config/joint_configurations.yaml"/>
 
 </launch>

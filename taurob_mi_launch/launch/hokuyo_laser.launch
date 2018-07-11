@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- hokuyo laser scaner drivers -->
+    <node pkg="urg_node" type="urg_node" respawn="true" output="screen" name="hokuyo">
+      <param name="frame_id" type="string" value="base_laser"/>
+      <param name="ip_address" type="string" value="10.0.0.61"/>
+      <param name="publish_intensity" type="bool" value="false"/>
+      <param name="angle_max" type="double" value="4.71"/>
+      <param name="angle_min" type="double" value="-4.71"/>
+      <remap from="/first" to="/scan" />
+     </node>
+</launch>

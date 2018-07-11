@@ -1,19 +1,13 @@
 <launch>
-  <!--
-    This launch file starts the drivers to control the robot and sets up robot/joint_state_publisher   nodes so that the robot can be controlled from the joint_state_publisher UI and the robot model
-    reflects the current state of the real robot.
+<!-- launchis robot drives -->
 
-    Caution: The joint_state_publisher node starts with a default value of '0' for all arm angles, make
-    sure the robot is in the initial pose before using this launch file, otherwise it will start moving!
-  -->
   <!--param
     name="robot_description"
     command="$(find xacro)/xacro.py $(find taurob_tracker_description)/urdf/tracker.urdf.xacro"/-->
 
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+  <!--node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/-->
 
   <include file="$(find taurob_watchdog)/launch/watchdog.launch"/>
-  <!--include file="$(find taurob_flipper_node)/launch/tracker.launch"/-->
 
   <node pkg="taurob_base_node" type="taurob_base_node" name="taurob_base_node" output="screen">
     <param name="tf_from_frame" value="base_link"/>
@@ -24,4 +18,3 @@
   </node>
 
 </launch>
-

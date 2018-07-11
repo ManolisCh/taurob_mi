@@ -1,28 +1,24 @@
 <launch>
 <!-- Launch file for use on robot computer. Runs the nodes on robot -->
-  
+
 <!-- taurobot drivers (need to run seperately clinet watchdog on new OCU terminal) -->
 <include file="$(find taurob_mi_launch)/launch/tracker_bringup.launch"/>
 
 
 <!-- hokuyo laser scaner drivers -->
-  <node pkg="urg_node" type="urg_node" respawn="true" output="screen" name="hokuyo">
-    <param name="frame_id" type="string" value="base_laser"/>
-    <param name="ip_address" type="string" value="10.0.0.61"/> 
-    <param name="publish_intensity" type="bool" value="false"/>
-    <param name="angle_max" type="double" value="4.71"/>
-    <param name="angle_min" type="double" value="-4.71"/>
-    <remap from="/first" to="/scan" />
-   </node>
+<include file="$(find taurob_mi_launch)/launch/hokuyo_laser.launch"/>
 
 
  <!-- imu drivers -->
-  <node pkg="um7" type="um7_driver" respawn="true" output="screen" name="imu"/>
+  <!-- node pkg="um7" type="um7_driver" respawn="true" output="screen" name="imu"/-->
 
 
 <!-- tf transform -->
 <!-- args ="x y z qx qy qz frame_id child_frame_id period_in_ms" -->
 <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.275 0 0.075 0 0 0 /base_link /base_laser 40" />
+
+<!-- USB camera -->
+<include file="$(find taurob_mi_launch)/launch/cv_cam.launch"/>
 
 <!-- MAP server to load the predefined map -->
   <arg name="map_file" default="$(find taurob_mi_launch)/world/map.yaml" />
