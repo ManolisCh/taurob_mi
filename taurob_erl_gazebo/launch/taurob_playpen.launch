@@ -1,8 +1,8 @@
 <launch>
 
  <arg name="robot_namespace" default="taurob"/>
- <arg name="lwa4d_enabled" default="true"/>
- <arg name="pg70_enabled" default="true"/>
+ <arg name="lwa4d_enabled" default="false"/>
+ <arg name="pg70_enabled" default="false"/>
 
  <arg name="x" default="0.0"/>
  <arg name="y" default="0.0"/>

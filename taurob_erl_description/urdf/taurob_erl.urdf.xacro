@@ -2,6 +2,9 @@
 
 <robot name="taurob_erl" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+<xacro:arg name="lwa4d_enabled" default="false" />
+<xacro:arg name="pg70_enabled" default="false" />
+
   <!--Required to quickly work around bug in collada_urdf (https://github.com/ros/robot_model/issues/132)-->
   <xacro:property name="box_scale_factor" value="1.0" />
   <xacro:property name="M_PI" value="3.14159"/>
@@ -16,19 +19,24 @@
   <xacro:include filename="$(find taurob_erl_description)/urdf/hokuyo_utm30lx.urdf.xacro" />
 
   <!--schunk lwa4d arm-->
+  <xacro:if value="$(arg lwa4d_enabled)">
 
     <xacro:include filename="$(find erl_lwa4d)/urdf/lwa4d/lwa4d.urdf.xacro" />
-
     <xacro:schunk_lwa4d name="arm" parent="base_link" has_podest="true" use_factory_settings="true">
       <origin xyz="0.12 0 0.185" rpy="0 0 0" />
     </xacro:schunk_lwa4d>
 
-    <!-- schunk pg70 -->
-    <xacro:include filename="$(find erl_pg70)/urdf/pg70/pg70.urdf.xacro" />
+  </xacro:if>
 
+  <!-- schunk pg70 -->
+  <xacro:if value="$(arg pg70_enabled)">
+
+    <xacro:include filename="$(find erl_pg70)/urdf/pg70/pg70.urdf.xacro" />
     <xacro:schunk_pg70 name="pg70" parent="arm_ee_link">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:schunk_pg70>
+
+  </xacro:if>
 
   <!--
   <xacro:generic_camera name="left" parent="base_link" ros_topic="image_mono" cam_info_topic="camera_info" update_rate="10" res_x="640" res_y="480" image_format="L8" hfov="120">
