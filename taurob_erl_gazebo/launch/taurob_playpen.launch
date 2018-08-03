@@ -1,0 +1,40 @@
+<launch>
+
+ <arg name="robot_namespace" default="taurob"/>
+ <arg name="lwa4d_enabled" default="true"/>
+ <arg name="pg70_enabled" default="true"/>
+
+ <arg name="x" default="0.0"/>
+ <arg name="y" default="0.0"/>
+ <arg name="yaw" default="0.0"/>
+
+
+<!-- launch gazebo and world -->
+ <include file="$(find gazebo_ros)/launch/empty_world.launch">
+   <arg name="world_name" value="$(find taurob_erl_gazebo)/worlds/clearpath_playpen.world"/>
+   <arg name="paused" value="false"/>
+   <arg name="use_sim_time" value="true"/>
+   <arg name="gui" value="true"/>
+   <arg name="headless" value="false"/>
+   <arg name="debug" value="false"/>
+ </include>
+
+  <!-- Load robot description -->
+  <include file="$(find taurob_erl_description)/launch/description.launch" >
+    <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    <arg name="lwa4d_enabled" default="$(arg lwa4d_enabled)"/>
+    <arg name="pg70_enabled" default="$(arg pg70_enabled)"/>
+  </include>
+
+     <!-- Spawn robot in gazebo -->
+     <node name="spawn_taurob" pkg="gazebo_ros" type="spawn_model"
+         args="-x $(arg x)
+               -y $(arg y)
+               -Y $(arg yaw)
+               -unpause
+               -urdf
+               -param robot_description
+               -model $(arg robot_namespace)" />
+
+
+</launch>

@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
-<package format="2">
-  <name>taurob_mi_gazebo</name>
-  <version>0.0.0</version>
-  <description>The taurob_mi_gazebo package</description>
+<package>
+  <name>taurob_erl_gazebo</name>
+  <version>1.0.0</version>
+  <description>The taurob_erl_gazebo package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="manolis@todo.todo">manolis</maintainer>
+  <maintainer email="e.chiou@bham.ac.uk">manolis</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>MIT</license>
 
 
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/taurob_mi_gazebo</url> -->
+  <!-- <url type="website">http://wiki.ros.org/taurob_erl_gazebo</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -49,12 +49,15 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>gazebo_ros</build_depend>
-  <build_depend>taurob_erl_description</build_depend>
-  <build_export_depend>gazebo_ros</build_export_depend>
-  <build_export_depend>taurob_erl_description</build_export_depend>
-  <exec_depend>gazebo_ros</exec_depend>
-  <exec_depend>taurob_erl_description</exec_depend>
+  <build_depend>roslaunch</build_depend>
+
+  <run_depend>controller_manager</run_depend>
+  <run_depend>gazebo_plugins</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>hector_gazebo_plugins</run_depend>
+  <run_depend>taurob_erl_description</run_depend>
+  <run_depend>rostopic</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

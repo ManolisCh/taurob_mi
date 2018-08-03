@@ -1,0 +1,16 @@
+<launch>
+  <arg name="use_joy" default="true"/>
+
+  <rosparam command="load"
+	    file="$(find taurob_mi_launch)/config/lwa4d_jog.yaml"/>
+  <node name="jog_joint_node" pkg="jog_controller" type="jog_joint_node"/>
+  <node name="jog_frame_node" pkg="jog_controller" type="jog_frame_node"/>
+
+  <!-- Launch joypad -->
+  <include if="$(arg use_joy)" file="$(find taurob_mi_launch)/launch/joypad.launch">
+    <arg name="group_name" value="arm"/>
+    <arg name="frame_id" value="arm_podest_link"/>
+    <arg name="link_name" value="arm_ee_link"/>
+  </include>
+
+</launch>

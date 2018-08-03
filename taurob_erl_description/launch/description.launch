@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="robot_namespace" default="/"/>
+  <arg name="lwa4d_enabled" default="false"/>
+  <arg name="pg70_enabled" default="false"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find taurob_erl_description)/urdf/taurob_erl.urdf.xacro'
+    --inorder
+    robot_namespace:=$(arg robot_namespace)
+    lwa4d_enabled:=$(arg lwa4d_enabled)
+    pg70_enabled:=$(arg pg70_enabled)
+    " />
+
+</launch>
