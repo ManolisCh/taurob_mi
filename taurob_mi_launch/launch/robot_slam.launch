@@ -20,12 +20,12 @@
 <!--include file="$(find taurob_mi_launch)/launch/front_ip_cam.launch"/-->
 
 <!-- USB camera -->
-<include file="$(find taurob_mi_launch)/launch/cv_cam.launch"/>
+<!--include file="$(find taurob_mi_launch)/launch/cv_cam.launch"/-->
 
 <!-- gmapping SLAM -->
-<include file="$(find taurob_mi_launch)/launch/slam_gmapping.launch"/>
+<!--include file="$(find taurob_mi_launch)/launch/slam_gmapping.launch"/-->
 <!-- Hector SLAM -->
-<!--include file="$(find taurob_mi_launch)/launch/slam_hector.launch"/-->
+<include file="$(find taurob_mi_launch)/launch/slam_hector.launch"/>
 
 <!-- Navigation stuff / move_base -->
 <include file="$(find taurob_mi_launch)/launch/move_base.launch"/>
