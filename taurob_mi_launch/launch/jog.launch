@@ -1,0 +1,11 @@
+<launch>
+
+
+<!-- cartesian controller -->
+<include file="$(find erl_lwa4d)/launch/cartesian_controller.launch"/>
+
+
+<!-- joystick jog -->
+<include file="$(find erl_jog_arm)/launch/jog_schunk_ik.launch"/>
+
+</launch>

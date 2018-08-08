@@ -1,0 +1,23 @@
+<launch>
+
+  <arg name="load_lwa4d_description" default="true"/>
+
+  <!-- send lwa4d + pg70 urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find erl_lwa4d)/urdf/lwa4d_pg70.urdf.xacro'" />
+
+
+<!-- LWA4d drivers -->
+<include file="$(find erl_lwa4d)/launch/arm.launch">
+  <arg name="load_lwa4d_description" default="false"/>
+</include>
+
+<!--include file="$(find erl_lwa4d)/launch/dashboard.launch"/-->
+
+<!-- pg70 drivers -->
+<include file="$(find erl_pg70)/launch/gripper.launch">
+  <arg name="load_pg70_description" default="false"/>
+</include>
+
+<!--include file="$(find erl_70)/launch/dashboard.launch"/-->
+
+</launch>
