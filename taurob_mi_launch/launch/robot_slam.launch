@@ -20,7 +20,7 @@
 <!--include file="$(find taurob_mi_launch)/launch/front_ip_cam.launch"/-->
 
 <!-- USB camera -->
-<!--include file="$(find taurob_mi_launch)/launch/cv_cam.launch"/-->
+<include file="$(find taurob_mi_launch)/launch/cv_cam.launch"/>
 
 <!-- gmapping SLAM -->
 <!--include file="$(find taurob_mi_launch)/launch/slam_gmapping.launch"/-->

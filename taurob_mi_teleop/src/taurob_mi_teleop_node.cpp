@@ -145,7 +145,7 @@ void JoystickTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     trajectory_msgs::JointTrajectoryPoint flipper_desired_joint_states;
 
 
-    if (joy->buttons.size() > enable_vel_button_ && joy->buttons[enable_vel_button_])
+  //  if (joy->buttons.size() > enable_vel_button_ && joy->buttons[enable_vel_button_])
     {
 
 
@@ -156,13 +156,13 @@ void JoystickTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
         vel_pub_.publish(cmd_vel);
     }
 
-    else
-    {
-        cmd_vel.linear.x = 0;
-        cmd_vel.angular.z = 0;
+  //  else
+  //  {
+  //      cmd_vel.linear.x = 0;
+  //      cmd_vel.angular.z = 0;
 
-        vel_pub_.publish(cmd_vel);
-    }
+    //  vel_pub_.publish(cmd_vel);
+  //  }
 
     // autonomy mode choice
     if (joy->buttons[stop_button_]){

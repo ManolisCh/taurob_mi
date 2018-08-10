@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="load_lwa4d_description" default="true"/>
+  <arg name="load_lwa4d_description" default="false"/>
 
   <!-- send lwa4d + pg70 urdf to param server -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find erl_lwa4d)/urdf/lwa4d_pg70.urdf.xacro'" />
